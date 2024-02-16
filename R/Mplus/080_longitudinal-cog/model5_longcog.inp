@@ -1,0 +1,24 @@
+DATA:
+FILE = "model5_longcog_f5c8aa8f1cf90becab177f352c727076.dat";
+ VARIANCES = NOCHECK;
+VARIABLE:
+NAMES = mplusid vddr vdbc vdda vdnm vds7 yrsfu k; 
+ MISSING=.;
+ CLUSTER = mplusid;
+              CATEGORICAL = vdbc vdda vdnm vds7;
+              WITHIN = yrsfu k;
+ANALYSIS:
+ESTIMATOR = MLR;
+              LINK = PROBIT;
+              TYPE = TWOLEVEL RANDOM;
+MODEL:
+%WITHIN%
+           GCP BY vddr@1.216 vdbc vdda vdnm vds7;
+           s | GCP on yrsfu;
+           i | GCP on k;
+           %BETWEEN%
+           i with s;
+           vddr-vds7@0;
+           [vddr@3.817];
+OUTPUT:
+TECH4; SVALUES;

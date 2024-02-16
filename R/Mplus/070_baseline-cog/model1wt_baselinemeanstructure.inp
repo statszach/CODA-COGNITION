@@ -1,0 +1,20 @@
+DATA:
+FILE = "model1wt_baselinemeanstructure_e6ba8854e7fb9ed50b82f95f0ccf580a.dat";
+ 
+VARIABLE:
+NAMES = mplusid vddr vdbc vdda vdnm vds7 FWGTR SECU_R STRATUM; 
+ MISSING=.;
+ WEIGHT = FWGTR;
+              CLUSTER = SECU_R;
+              STRATIFICATION = STRATUM;
+              idvariable = mplusid;
+              CATEGORICAL = vdbc vdda vdnm vds7;
+ANALYSIS:
+ESTIMATOR = MLR;
+              LINK = PROBIT;
+              TYPE = COMPLEX;
+MODEL:
+GCP BY vddr* vdbc vdda vdnm vds7;
+           GCP@1;
+OUTPUT:
+TECH4; SVALUES;

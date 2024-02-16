@@ -1,0 +1,421 @@
+Mplus VERSION 8.10
+MUTHEN & MUTHEN
+02/13/2024   4:56 PM
+
+INPUT INSTRUCTIONS
+
+  DATA:
+  FILE = "model3_baselinemeanstructure_0d538146f11bc40eb8c2831ec41188b5.dat";
+
+  VARIABLE:
+  NAMES = mplusid vddr vdbc vdda vdnm vds7;
+   MISSING=.;
+   idvariable = mplusid;
+                CATEGORICAL = vdbc vdda vdnm vds7;
+  ANALYSIS:
+  ESTIMATOR = MLR;
+                LINK = PROBIT
+  MODEL:
+  GCP BY vddr@1.216 vdbc vdda vdnm vds7;
+             GCP*;
+  OUTPUT:
+  TECH4; SVALUES;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  298
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        7627
+
+Number of dependent variables                                    5
+Number of independent variables                                  0
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Continuous
+   VDDR
+
+  Binary and ordered categorical (ordinal)
+   VDBC        VDDA        VDNM        VDS7
+
+Continuous latent variables
+   GCP
+
+Variables with special functions
+
+  ID variable           MPLUSID
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            10
+  Minimum value for logit thresholds                           -10
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            1
+  Adaptive quadrature                                           ON
+Link                                                        PROBIT
+Cholesky                                                        ON
+
+Input data file(s)
+  model3_baselinemeanstructure_0d538146f11bc40eb8c2831ec41188b5.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            23
+     Number of y missing data patterns           2
+     Number of u missing data patterns          14
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              VDBC          VDDA          VDNM          VDS7          VDDR
+              ________      ________      ________      ________      ________
+ VDBC           0.954
+ VDDA           0.948         0.958
+ VDNM           0.869         0.873         0.876
+ VDS7           0.771         0.771         0.725         0.773
+ VDDR           0.949         0.951         0.871         0.770         0.993
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              VDBC          VDDA          VDNM          VDS7
+              ________      ________      ________      ________
+ VDBC           0.954
+ VDDA           0.948         0.958
+ VDNM           0.869         0.873         0.876
+ VDS7           0.771         0.771         0.725         0.773
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              VDDR
+              ________
+ VDDR           0.993
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    VDBC
+      Category 1    0.044          320.000
+      Category 2    0.956         6954.000
+    VDDA
+      Category 1    0.006           44.000
+      Category 2    0.018          134.000
+      Category 3    0.156         1136.000
+      Category 4    0.820         5989.000
+    VDNM
+      Category 1    0.019          130.000
+      Category 2    0.107          716.000
+      Category 3    0.873         5834.000
+    VDS7
+      Category 1    0.027          158.000
+      Category 2    0.105          621.000
+      Category 3    0.108          639.000
+      Category 4    0.091          537.000
+      Category 5    0.144          849.000
+      Category 6    0.524         3091.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     VDDR                  3.832      -0.108       0.000   11.91%       2.000      3.000      4.000
+            7572.000       4.654      -0.350      10.000    0.46%       5.000      6.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       18
+
+Loglikelihood
+
+          H0 Value                      -32634.828
+          H0 Scaling Correction Factor      1.0104
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   65305.655
+          Bayesian (BIC)                 65430.565
+          Sample-Size Adjusted BIC       65373.365
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes
+
+          Pearson Chi-Square
+
+          Value                            134.840
+          Degrees of Freedom                   127
+          P-Value                           0.3002
+
+          Likelihood Ratio Chi-Square
+
+          Value                             96.951
+          Degrees of Freedom                   127
+          P-Value                           0.9781
+
+Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
+
+          Pearson Chi-Square
+
+          Value                           1190.694
+          Degrees of Freedom                   221
+          P-Value                           0.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                            570.175
+          Degrees of Freedom                   221
+          P-Value                           0.0000
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ GCP      BY
+    VDDR               1.216      0.000    999.000    999.000
+    VDBC               0.767      0.081      9.513      0.000
+    VDDA               0.635      0.051     12.345      0.000
+    VDNM               0.956      0.083     11.507      0.000
+    VDS7               0.511      0.049     10.426      0.000
+
+ Intercepts
+    VDDR               3.830      0.025    154.465      0.000
+
+ Thresholds
+    VDBC$1            -2.032      0.063    -32.413      0.000
+    VDDA$1            -2.903      0.070    -41.208      0.000
+    VDDA$2            -2.246      0.043    -51.887      0.000
+    VDDA$3            -1.020      0.024    -42.590      0.000
+    VDNM$1            -2.641      0.081    -32.543      0.000
+    VDNM$2            -1.415      0.047    -30.078      0.000
+    VDS7$1            -2.043      0.039    -51.755      0.000
+    VDS7$2            -1.152      0.024    -48.318      0.000
+    VDS7$3            -0.705      0.020    -35.486      0.000
+    VDS7$4            -0.411      0.018    -22.319      0.000
+    VDS7$5            -0.004      0.018     -0.237      0.813
+
+ Variances
+    GCP                0.784      0.063     12.345      0.000
+
+ Residual Variances
+    VDDR               3.496      0.103     33.947      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.441E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+RESULTS IN PROBABILITY SCALE
+
+                    Estimate
+
+ VDBC
+    Category 1         0.046
+    Category 2         0.954
+ VDDA
+    Category 1         0.006
+    Category 2         0.019
+    Category 3         0.162
+    Category 4         0.813
+ VDNM
+    Category 1         0.022
+    Category 2         0.118
+    Category 3         0.860
+ VDS7
+    Category 1         0.031
+    Category 2         0.116
+    Category 3         0.114
+    Category 4         0.093
+    Category 5         0.145
+    Category 6         0.502
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     gcp BY vddr@1.21600;
+     gcp BY vdbc*0.76737;
+     gcp BY vdda*0.63489;
+     gcp BY vdnm*0.95611;
+     gcp BY vds7*0.51095;
+
+     [ vddr*3.82976 ];
+
+     [ vdbc$1*-2.03177 ];
+     [ vdda$1*-2.90282 ];
+     [ vdda$2*-2.24592 ];
+     [ vdda$3*-1.02008 ];
+     [ vdnm$1*-2.64148 ];
+     [ vdnm$2*-1.41524 ];
+     [ vds7$1*-2.04304 ];
+     [ vds7$2*-1.15230 ];
+     [ vds7$3*-0.70457 ];
+     [ vds7$4*-0.41146 ];
+     [ vds7$5*-0.00429 ];
+
+     vddr*3.49586;
+     gcp*0.78382;
+
+
+
+TECHNICAL 4 OUTPUT
+
+
+     ESTIMATES DERIVED FROM THE MODEL
+
+
+           ESTIMATED MEANS FOR THE LATENT VARIABLES
+              GCP
+              ________
+                0.000
+
+
+           S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              GCP
+              ________
+                0.000
+
+
+           EST./S.E. FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              GCP
+              ________
+                0.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED MEANS FOR THE LATENT VARIABLES
+              GCP
+              ________
+                1.000
+
+
+           ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              GCP
+              ________
+ GCP            0.784
+
+
+           S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              GCP
+              ________
+ GCP            0.063
+
+
+           EST./S.E. FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              GCP
+              ________
+ GCP           12.345
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED COVARIANCE MATRIX FOR THE LATENT VARIABLES
+              GCP
+              ________
+ GCP            0.000
+
+
+           ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              GCP
+              ________
+ GCP            1.000
+
+
+           S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              GCP
+              ________
+ GCP            0.000
+
+
+           EST./S.E. FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              GCP
+              ________
+ GCP          999.000
+
+
+           TWO-TAILED P-VALUE FOR ESTIMATED CORRELATION MATRIX FOR THE LATENT VARIABLES
+              GCP
+              ________
+ GCP            0.000
+
+
+     Beginning Time:  16:56:44
+        Ending Time:  16:56:50
+       Elapsed Time:  00:00:06
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2023 Muthen & Muthen

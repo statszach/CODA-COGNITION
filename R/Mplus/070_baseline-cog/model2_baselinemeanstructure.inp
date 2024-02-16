@@ -1,0 +1,17 @@
+DATA:
+FILE = "model1_baselinemeanstructure_fc11747c5c1561c3d000de2c6261e230.dat";
+ 
+VARIABLE:
+NAMES = mplusid vddr vdbc vdda vdnm vds7; 
+ MISSING=.;
+ idvariable = mplusid;
+              CATEGORICAL = vdbc vdda vdnm vds7;
+ANALYSIS:
+ESTIMATOR = MLR;
+              LINK = PROBIT
+MODEL:
+GCP BY vddr@1.216 vdbc vdda vdnm vds7;
+           GCP*
+           [vddr@3.817];
+OUTPUT:
+TECH4; SVALUES;

@@ -1,0 +1,248 @@
+---
+title: "CODA Cohort Random Effects Cognition Modeling"
+author: "Zach Kunicki"
+format: 
+  docx:
+    reference-doc: ref_report.docx
+    embed-resources: true
+editor: visual
+---
+
+## Background and purpose of study
+
+This report describes the data management and results of modeling cognition in the Children of the Depression (CODA) cohort of the Health and Retirement Study (HRS).
+
+The purpose of this study is to study the concept of normative cognitive aging, which for the purpose of this study is defined as aging-related changes in the absence of a diagnosis of a neurocognitive disorder. This is a major unanswered question in the field of cognitive aging, which the CODA cohort is uniquely suited to answer. First, CODA is a community sample which reduces concerns of selection bias when compared to samples recruited from a specialty setting. Second, the CODA cohort began recruitment in 1998, with follow-up surveys currently on going. Data until 2020 are currently available, for 22 years of follow up assessments. Third, there is age homogeneity as the entire sample was between 68-74 at baseline. This also reduces selection bias, as samples with age heterogeneity (e.g., 68-85) cannot be certain that younger participants are representative of older participants (i.e., the older participants were healthy enough to make it to their current age, and the younger participants may not live that long). Fourth, it is possible to adjust for practice and retest effects that are commonly seen in cognitive aging cohorts.
+
+A fifth ideal component of CODA is the ability to use both a cognitive composite score and individual cognitive tests to examine change in cognition over time. Composite scores and individual cognitive tests each have advantages and disadvantages. Epidemiologists may prefer cognitive comoposites because they are a single, normally distributed variable that is easy to work with in analytical models. Neuropsychologists may prefer individual cognitive tests because they can give information on domain-specific functioning that could be useful for diagnosis or treatment.
+
+The purpose of the current study is to develop a cognitive composite score for use in the CODA cohort, which can then be used to examine normative cognitive aging. As part of this analysis, we will consider differential item functioning as there are known mode of assessment effects in the HRS (see Smith et al., 2022 and Domingue et al., 2023).
+
+## Step 1: Selecting cases to include
+
+The first step of the analysis was selecting members of the CODA cohort. In the HRS tracker file, we filtered for participants who had values of 21 for STUDY. STUDY is defined as "Study membership is based on the entry cohort of the individual. This will differ from the birth cohort for age-ineligible spouses or partners" and 21 is defined as "21. CODA (Children of the Depression Age)."
+
+```{r}
+#| echo: false
+#| message: false
+#| warnings: false
+
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "040_select-obs.Rdata"))
+```
+
+We identified N = `r CODA_IDs_all` in the overall cohort. We dropped N = `r CODA_IDs_age` for having a 1998 age outside of the CODA-eligible age band of 68-74. There were also N = `r Ndropped_0wt` participants with a weight of 0, who were excluded from the analysis. A weight of 0 means the participant was ineligible for the study. Reasons for having a weight of zero included "not cohort eligible this wave," "nursing home resident", and "xWGTR greater than zero or xIWTYPE greater than one." xWGTR is defined as "the sampling weight for analysis at the respondent level for respondents living in the community" (HRS Tracker File, 2023, pg. 21). xIWTYPE refers a 7 category variable about the type of interview conducted. A value of 1 is the core interview, values of 5, 11, 15, 21, 25, and 99 refer to core interview not obtained, exit interview obtained, exit interview not obtained, post-exit interview obtained, post-exit interview not obtained, and not in the sample at this wave (HRS Tracker File, 2023, pg. 25). *Table 1* shows the break down for why a participant had a weight of 0 and was removed from the primary analyses.
+
+### Table 1: Summary of participants excluded for having a weight of zero
+
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "040_select-obs.Rdata"))
+table1
+```
+
+Note that for the participants listed as "Core interview obtained" under FIWTYPE, these same participants either were not cohort eligible or a nursing home resident under FWHY0WGT, as shown in Table 2.
+
+### Table 2: Breakdown of FIWTYPE and FWHY0WGT
+
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "040_select-obs.Rdata"))
+knitr::kable(table1checkvar)
+```
+
+\newpage
+
+## Step 2: Scoring variables
+
+There are six cognitive variables in the HRS cognitive battery: immediate recall, delayed recall, backwards counting, object naming, orientation to time, and serial 7s. I will describe those tests in an upcoming revision (or ask a real neuropsychologist to do it).
+
+McArdle et al. (2007) scored these variables on a 0-100% scale. In my code, I recreate that scoring but the final analytical variables are done on a conventional 0, 1, 2... scale. We also do not use the immediate recall variable because immediate recall is a cognitive task that will have a very strong ceiling effect until the later stages of dementia, and as such is not a good indicator of cognition in community-based samples.
+
+Table 3 shows the scored cognitive variables. Here, we see that there are very sparse entries at the lower end for object naming and orientation to time.
+
+\newpage
+
+### Table 3: Scored cognitive variables
+
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "050_define-variables.Rdata"))
+table2
+```
+
+Based on this, we re-score both variables. In orientation to time, we collapse the bottom two categories and for object naming we collapse the bottom three categories. The rescoring is shown in Tables 4 and 5, respectively. An updated table with all of the scored variables is shown in Table 6.
+
+### Table 4: Rescoring of orientation time
+
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "050_define-variables.Rdata"))
+knitr::kable(checkrescoringda)
+```
+
+### Table 5: Rescoring of object naming
+
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "050_define-variables.Rdata"))
+knitr::kable(checkrescoringnm)
+```
+
+\newpage
+
+### Table 6: Rescored cognitive variables
+
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "050_define-variables.Rdata"))
+table6
+```
+
+Finally, we obtain the demographic variables that will be used in the final analysis. These are shown in Table 4. Note that these demographics are all based on the **unweighted** sample. In the final publication version, we will report the *unweighted* N but the *weighted* statistics in terms of Means/SDs and percentages. This table is shown in Table 8.
+
+### Table 7: Unweighted Demographics
+
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "050_define-variables.Rdata"))
+demos_table
+```
+
+
+### Table 8: Weighted Demographics
+
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "060_table1.Rdata"))
+table1
+```
+
+\newpage
+
+## Step 3: Model cognition at baseline
+
+The first preliminary model examines cognition at baseline. In this model, we fix the factor variance at 1 and our goal is to obtain the measurement slope (loading) and intercept (mean) of vddr for use in subsequent models. The model syntax is:
+
+### Model 1 Syntax
+```{r, echo = TRUE, eval = FALSE, message = FALSE, warnings = FALSE}
+  MODEL = "GCP BY vddr* vdbc vdda vdnm vds7;
+           GCP@1;"
+```
+
+The loading and intercept for vddr are:
+
+```{r, echo = FALSE, message = FALSE, warnings = FALSE}
+source(here::here("R", "010_paths-and-files.R"))
+source(here::here("R", "020_libraries.R"))
+load(here::here(RDS_path, "070_baseline-cognition.Rdata"))
+model1_results
+```
+
+The second preliminary model fixes the measurement slope and free the latent mean variance. We should see that variance of GCP is close to 1 in TECH4. The model syntax is:
+
+### Model 2 Syntax
+```{r, echo = TRUE, eval = FALSE, message = FALSE, warnings = FALSE}
+  MODEL = "GCP BY vddr@1.216 vdbc vdda vdnm vds7;
+           GCP*;
+           [vddr@3.817];"
+```
+
+The variance for GCP is `r model2_results`. Jones (personal communication, 2024) says that's close enough. We may get closer to 1 if we used the SVALUES results instead of the unstandardized output, but it's close enough to move on for now.
+
+## Step 4: Model longitudinal cognition
+
+The third model begins longitudinal modeling. For the purposes of this internal report, we are going to limit to the first four time points of CODA and will expand to the full dataset after we're confident the models are working as intended.
+
+The third preliminary model uses the same syntax as Model 2, but expanded to the longitudinal dataset. We should see the latent trait variance is now `r model3_results` which is far from 1, but that is okay.
+
+## Step 5: Add the multilevel specifciation
+
+The fourth model adds the multilevel specification to Model 3. The syntax for this code is:
+
+### Model 4 Syntax
+```{r, echo = TRUE, eval = FALSE, message = FALSE, warnings = FALSE}
+  MODEL = "%WITHIN%
+           GCP BY vddr@1.216 vdbc vdda vdnm vds7;
+           GCP*;
+           %BETWEEN%
+           [vddr@3.817];",
+  ANALYSIS = "ESTIMATOR = MLR;
+              LINK = PROBIT;
+              TYPE = TWOLEVEL;",
+  VARIABLE = "CLUSTER = mplusid;
+              CATEGORICAL = vdbc vdda vdnm vds7;",
+```
+
+Notice that we have to add TYPE = TWOLEVEL and specify the ID variable is the clustering variable. This model runs with no issues.
+
+## Step 6: Add random regressions on time and a constant
+
+The fifth model adds the random regressions of years of follow-up on GCP and a constant on GCP to get the slope and intercept, respectively. We regress on the constant as a "trick" to get Mplus to estimate the the latent mean. The model syntax is:
+
+### Model 5 Syntax
+```{r, echo = TRUE, eval = FALSE, message = FALSE, warnings = FALSE}
+  MODEL = "%WITHIN%
+           GCP BY vddr@1.216 vdbc vdda vdnm vds7;
+           s | GCP on yrsfu;
+           i | GCP on k;
+           [GCP@0];
+           %BETWEEN%
+           i with s;
+           vddr-vds7@0;
+           [vddr@3.817];",
+  ANALYSIS = "ESTIMATOR = MLR;
+              LINK = PROBIT;
+              TYPE = TWOLEVEL RANDOM;",
+  VARIABLE = "CLUSTER = mplusid;
+              CATEGORICAL = vdbc vdda vdnm vds7;
+              WITHIN = yrsfu k;",
+  DATA = "VARIANCES = NOCHECK;",
+```
+
+Notice that we have to add TYPE = RANDOM, WITHIN = yrsfu k and VARIANCES = NOCHECK for this model to converge. We also fix the mean of GCP at 0 since the mean is being estimated as part of k. We also fix the residual variances of vddr-vds7 to 0 so that the variability is forced into the random effects. This model runs fine, but takes 37 minutes to converge and there is some concern of misspecification due to this length of time.
+
+## Step 7: Add the sampling weights
+
+The next step is to add the sampling weight to Model 5. The syntax is shown below.
+
+```{r, echo = T, eval = F}
+  MODEL = "%WITHIN%
+           GCP BY vddr@1.216 vdbc vdda vdnm vds7;
+           s | GCP on yrsfu;
+           i | GCP on k;
+           [GCP@0];
+           %BETWEEN%
+           i with s;
+           vddr-vds7@0;
+           [vddr@3.817];",
+  ANALYSIS = "ESTIMATOR = MLR;
+              LINK = PROBIT;
+              TYPE = COMPLEX TWOLEVEL RANDOM;
+              MITERATIONS = 1000;",
+  VARIABLE = "WEIGHT = FWGTR;
+              CLUSTER = SECU_R mplusid;
+              STRATIFICATION = STRATUM;
+              CATEGORICAL = vdbc vdda vdnm vds7;
+              WITHIN = yrsfu k;
+              WTSCALE = UNSCALED;",
+  DATA = "VARIANCES = NOCHECK;",
+  OUTPUT = "TECH4; SVALUES;",
+```
+
+Notice we now add TYPE = COMPLEX, MITERATIONS = 1000, WEIGHT = FWGTR, CLUSTER = SECU_R, STRATIFICATION=STRATUM, and WTSCALE = UNSCALED. There are a few key points here. First, the order of the clustering matters and we want to add SECU_R first. Second, Mplus does not like how the HRS sets up their clustering because it allows for cluster variables to be in one or more strata. The solution is to make a new variable (SECU_R in my code) that combines the SECU variable and STRATUM variables. I do this through:
+
+```{r, echo = T, eval = F}
+tidyr::unite(SECU_R, c("SECU", "STRATUM"), sep = ".", remove = FALSE)
+```
+
+This creates a new variable that will work with Mplus. Third, we have to specify that WTSCALE = UNSCALED. This is equivalent to using the raw weight in the analysis (see Scaling of Sampling Weights for Two Level Models in Mplus 4.2, 2008 for an explanation). Fourth, we need to increase the number of MITERATIONS for this model to converge. The default is 500 so I double it to 1000.

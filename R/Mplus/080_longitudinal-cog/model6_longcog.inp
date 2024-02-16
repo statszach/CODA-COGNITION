@@ -1,0 +1,28 @@
+DATA:
+FILE = "model6_longcog_63594e4b82b233f8270223097fa4ee93.dat";
+ VARIANCES = NOCHECK;
+VARIABLE:
+NAMES = mplusid vddr vdbc vdda vdnm vds7 yrsfu FWGTR SECU_R STRATUM k; 
+ MISSING=.;
+ WEIGHT = FWGTR;
+              CLUSTER = SECU_R mplusid;
+              STRATIFICATION = STRATUM;
+              CATEGORICAL = vdbc vdda vdnm vds7;
+              WITHIN = yrsfu k;
+              WTSCALE = UNSCALED;
+ANALYSIS:
+ESTIMATOR = MLR;
+              LINK = PROBIT;
+              TYPE = COMPLEX TWOLEVEL RANDOM;
+              MITERATIONS = 2000;
+MODEL:
+%WITHIN%
+           GCP BY vddr@1.216 vdbc vdda vdnm vds7;
+           s | GCP on yrsfu;
+           i | GCP on k;
+           %BETWEEN%
+           i with s;
+           vddr-vds7@0;
+           [vddr@3.817];
+OUTPUT:
+TECH4; SVALUES;
